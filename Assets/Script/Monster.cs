@@ -6,14 +6,20 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     public float moveSpeed = 2.0f;
-    public Transform[] paths;
-    private int curIndex = 0;
-    public int maxIndex;
-    private Vector3 direction = Vector3.zero;
 
-    private void Start()
+    public int maxIndex;
+    public Transform[] paths;
+
+    public float maxHp;
+
+    private int curIndex = 0;
+    private Vector3 direction = Vector3.zero;
+    [SerializeField] private float hp;
+
+    //  paths는 함수를 통해 외부에서 설정한다.
+    private void Awake()
     {
-        maxIndex = paths.Length;
+        hp = maxHp;
     }
 
     public void FixedUpdate()
@@ -33,8 +39,8 @@ public class Monster : MonoBehaviour
 
         //  Lerp는 선형 보간이다. -> 움직임을 부드럽게
         transform.position = Vector3.Lerp(transform.position,
-        transform.position + direction,
-        moveSpeed * Time.deltaTime);
+            transform.position + direction,
+            moveSpeed * Time.deltaTime);
     }
 
     private void CheckNextPath()
@@ -51,65 +57,34 @@ public class Monster : MonoBehaviour
             {
                 return;
             }
+
             direction = paths[curIndex].position - paths[curIndex - 1].position;
         }
     }
 
-
-
-}
-
-/* 재오 사수님 코드
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Monster : MonoBehaviour
-{
-    public float moveSpeed = 2.0f;
-    public Transform[] paths;
-    private int curIndex = 0;
-    public int maxIndex;
-    private Vector3 direction = Vector3.zero;
-
-    private void Start()
+    public void SetPath(Transform[] path)
     {
-        maxIndex = paths.Length;
+        paths = path;
+        maxIndex = path.Length;
     }
 
-    public void FixedUpdate()
+    public void TakeDamage(float damageAmount)
     {
-        if (maxIndex - 1 < curIndex)
-        {  
-            //  종료 조건
-            Destroy(this);
-            return;
-        }
+        hp -= damageAmount;
 
-        CheckNextPath();
-        
-        //  Lerp는 선형 보간이다. -> 움직임을 부드럽게
-        transform.position = Vector3.Lerp(transform.position, 
-        transform.position + direction, 
-        moveSpeed * Time.deltaTime);
+        if (hp <= 0)
+        {
+            Die();
+        }
     }
 
-    private void CheckNextPath()
+    public void Die()
     {
-        if (maxIndex - 1 < curIndex)
-        {
-            return;
-        }
-
-        if (paths[curIndex].position.magnitude - transform.position.magnitude < 0.00001)
-        {
-            curIndex++;
-            if (curIndex == maxIndex)
-            {
-                return;
-            }
-            direction = paths[curIndex].position - paths[curIndex - 1].position;
-        }
+        //  여기에서는 gameObject가 아닌 this 사용한다. -> instance를 가져와서 삭제하는 것이기 때문
+        //  !Important - C#에서는 this가 instance를 참조하는 용도로 사용. 포인터가 아님
+        //  싱글톤일 때만 권장되는 문법이다. GameManager의 타입의 instance를 가져오고 그 내부의 public함수를 사용할 수 있음.
+        GameManager.GetInstance().RemoveMonster(this);
+        //  그 후에 이 instance를 삭제
+        Destroy(gameObject);
     }
 }
- */

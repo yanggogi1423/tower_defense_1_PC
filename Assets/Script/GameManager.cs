@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,9 +39,13 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    //  Max 체력
     private const int MAX_HP = 3;
     [SerializeField, ReadOnly(true)] private int hp = MAX_HP;
 
+    //  생성되는 몬스터 객체의 List
+    [SerializeField] private List<Monster> _monsters = new();
+    
     public UnityEvent onHpChanged = new UnityEvent();
 
     public void GetDamage()
@@ -60,5 +65,22 @@ public class GameManager : MonoBehaviour
     public int GetHp()
     {
         return hp;
+    }
+    
+    //  필드에 존재하는 모든 몬스터를 가져온다.(List를 array로 변환)
+    public Monster[] GetAllMonster()
+    {
+        return _monsters.ToArray();
+    }
+
+    public void AddMonster(Monster m)
+    {
+        _monsters.Add(m);
+    }
+
+    public void RemoveMonster(Monster m)
+    {
+        //  List에 iterator가 아닌 instance를 넣어도 삭제할 수 있다.
+        _monsters.Remove(m);
     }
 }
