@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
+using UnityEngine.Events;
 
 public class Tower : MonoBehaviour
 {
     public float damage;
     public float atkCooldown;
     public float range;
+
+    public UnityEvent<Monster> onAttack = new UnityEvent<Monster>();
 
     public void Start()
     {
@@ -21,6 +24,7 @@ public class Tower : MonoBehaviour
         if (target == null) return;
 
         target.TakeDamage(damage);
+        onAttack.Invoke(target);
     }
 
     public Monster DetectTarget()
@@ -34,6 +38,8 @@ public class Tower : MonoBehaviour
 
         foreach (Monster m in monsters)
         {
+            //  null인 경우 skip
+            if (m == null) continue;
             float dist = Distance(m.transform);
 
             if (dist < minDist)
