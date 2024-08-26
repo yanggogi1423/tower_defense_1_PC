@@ -15,7 +15,9 @@ public class BulletEffect : MonoBehaviour
 
    private void Update()
    {
-      if (Vector2.Distance(transform.position, target) < 0.1f)
+      // Mathf는 유니티에서 제공하는 함수, Math.Epsilon은 최솟값으로 지정된 임의의 숫자(충돌 관련에서 사용)
+      // if (Vector2.Distance(transform.position, target) < Mathf.Epsilon) -> 근데 너무 작아서 작동하지 않을 수 있다!
+      if (Vector2.Distance(transform.position, target) < 0.1)
       {
          Destroy(gameObject);
       }

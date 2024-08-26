@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273013583c053fa4986eae333fff778a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 1.5
   maxIndex: 0
   paths:
   - {fileID: 0}
@@ -160,5 +160,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  maxHp: 0
+  maxHp: 8
   hp: 0
+  gold: 50

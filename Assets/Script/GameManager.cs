@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +16,10 @@ public class GameManager : MonoBehaviour
     {
         if (_instance == null)
         {
+            //  존재하는 지 확인한다.
+            _instance = FindObjectOfType<GameManager>();
+            if (_instance != null) return _instance;
+            
             //  존재하지 않는다면 생성한다.
             _instance = new GameManager().AddComponent<GameManager>();
             _instance.name = "GameManager";
@@ -45,8 +50,24 @@ public class GameManager : MonoBehaviour
 
     //  생성되는 몬스터 객체의 List
     [SerializeField] private List<Monster> _monsters = new();
+
+    [SerializeField] private int gold;
     
     public UnityEvent onHpChanged = new UnityEvent();
+    public UnityEvent onGoldChanged = new UnityEvent();
+    
+    //  Tower
+
+    public GameObject clickedTower;
+
+    private void Start()
+    {
+        //  게임 시작 시 체력을 초기화
+        hp = MAX_HP;
+        onHpChanged.Invoke();
+
+        clickedTower = null;
+    }
 
     public void GetDamage()
     {
@@ -83,4 +104,35 @@ public class GameManager : MonoBehaviour
         //  List에 iterator가 아닌 instance를 넣어도 삭제할 수 있다.
         _monsters.Remove(m);
     }
+    
+    //  Gold
+
+    public void AddGold(int value)
+    {
+        gold += value;
+        onGoldChanged.Invoke();
+    }
+
+    public int GetGold()
+    {
+        return gold;
+    }
+
+    public void UseGold(int value)
+    {
+        if (gold < value)
+        {
+            Debug.Log("Not Enough Gold");
+            return;
+        }
+
+        gold -= value;
+        onGoldChanged.Invoke();
+    }
+
+    public GameObject GetTower()
+    {
+        return clickedTower;
+    }
+    
 }

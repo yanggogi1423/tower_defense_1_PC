@@ -14,7 +14,9 @@ public class Monster : MonoBehaviour
 
     private int curIndex = 0;
     private Vector3 direction = Vector3.zero;
+    
     [SerializeField] private float hp;
+    [SerializeField] private int gold;
 
     //  paths는 함수를 통해 외부에서 설정한다.
     private void Awake()
@@ -84,6 +86,7 @@ public class Monster : MonoBehaviour
         //  !Important - C#에서는 this가 instance를 참조하는 용도로 사용. 포인터가 아님
         //  싱글톤일 때만 권장되는 문법이다. GameManager의 타입의 instance를 가져오고 그 내부의 public함수를 사용할 수 있음.
         GameManager.GetInstance().RemoveMonster(this);
+        GameManager.GetInstance().AddGold(gold);
         //  그 후에 이 instance를 삭제
         Destroy(gameObject);
     }

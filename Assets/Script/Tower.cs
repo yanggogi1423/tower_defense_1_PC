@@ -11,6 +11,9 @@ public class Tower : MonoBehaviour
     public float damage;
     public float atkCooldown;
     public float range;
+    
+    //  Tower Cost
+    public int cost;
 
     public UnityEvent<Monster> onAttack = new UnityEvent<Monster>();
 
