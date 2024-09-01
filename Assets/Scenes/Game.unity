@@ -837,6 +837,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &218427795
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1500,6 +1502,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &497529897
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1811,6 +1815,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &669692288
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2085,6 +2091,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &802252826
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2470,6 +2478,7 @@ GameObject:
   - component: {fileID: 1027536930}
   - component: {fileID: 1027536929}
   - component: {fileID: 1027536928}
+  - component: {fileID: 1027536931}
   m_Layer: 5
   m_Name: TowerShop
   m_TagString: Untagged
@@ -2563,6 +2572,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027536926}
   m_CullTransparentMesh: 1
+--- !u!114 &1027536931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027536926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8cee04238a87fd4f9f4cc2075a965f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDuration: 0.5
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _buttons:
+  - {fileID: 1704826373}
+  - {fileID: 1734675166}
+  - {fileID: 209120016}
+  - {fileID: 407034864}
 --- !u!1 &1037869955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2743,7 +2794,10 @@ MonoBehaviour:
   onGoldChanged:
     m_PersistentCalls:
       m_Calls: []
-  clickedTower: {fileID: 0}
+  _clickedTower: {fileID: 0}
+  onTowerSelected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1202272332
 Transform:
   m_ObjectHideFlags: 0
@@ -2988,6 +3042,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &1398075407
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3090,11 +3146,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Normal
+  m_text: 'Sell
 
-    Tower
-
-    $100'
+    Tower '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3241,7 +3295,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 'Gold : view'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3417,6 +3471,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &1573105035
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3561,6 +3617,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &1573428615
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4458,6 +4516,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &1751436091
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5143,7 +5203,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 0.9189461, b: 0.3160377, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -5165,7 +5225,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1936476645}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1598360744}
+        m_TargetAssemblyTypeName: TowerSpawner, Assembly-CSharp
+        m_MethodName: SellTheTower
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1936476645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5418,6 +5490,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSpawner: {fileID: 1598360741}
+  tower: {fileID: 0}
+  isFull: 0
 --- !u!61 &2011281213
 BoxCollider2D:
   m_ObjectHideFlags: 0

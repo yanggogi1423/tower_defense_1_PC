@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TowerSpawner : MonoBehaviour
@@ -13,28 +14,70 @@ public class TowerSpawner : MonoBehaviour
 
 //    private int idx;
 
-    private void Start()
+    private void Awake()
     {
-//        idx = 0;
+        GameManager.GetInstance().onTowerSelected.AddListener(OnTowerSelected);
     }
 
+    private void OnTowerSelected()
+    {
+        DefaultColor();
+    }
+
+    //  Tower List
     public void SpawnDefaultTower()
     {
-        if (CheckingArea()&&EnoughGold(0))
+        if (CheckingArea() && EnoughGold(0))
         {
             GameManager.GetInstance().UseGold(towerPrefab[0].GetComponent<Tower>().cost);
-            Instantiate(towerPrefab[0], GameManager.GetInstance().GetTower().transform.position, Quaternion.identity);
+            
+            GameManager.GetInstance().GetTower().GetComponent<TowerPoint>().tower =
+                Instantiate(towerPrefab[0], 
+                    GameManager.GetInstance().GetTower().transform.position, 
+                    Quaternion.identity);
+            
+            GameManager.GetInstance().GetTower().GetComponent<TowerPoint>().isFull = true;
+        }
+    }
+
+    public void SpawnRapidTower()
+    {
+        if (CheckingArea() && EnoughGold(1))
+        {
+            GameManager.GetInstance().UseGold(towerPrefab[1].GetComponent<Tower>().cost);
+            
+            GameManager.GetInstance().GetTower().GetComponent<TowerPoint>().tower =
+                Instantiate(towerPrefab[1], 
+                    GameManager.GetInstance().GetTower().transform.position, 
+                    Quaternion.identity);
+            
+            GameManager.GetInstance().GetTower().GetComponent<TowerPoint>().isFull = true;
         }
     }
     
-    public void SpawnRapidTower()
+    //  Sell Tower
+    public void SellTheTower()
     {
-        if (CheckingArea()&&EnoughGold(1))
+        if (CheckingArea())
         {
-            GameManager.GetInstance().UseGold(towerPrefab[1].GetComponent<Tower>().cost);
-            Instantiate(towerPrefab[1], GameManager.GetInstance().GetTower().transform.position, Quaternion.identity);
+            TowerPoint tmp = GameManager.GetInstance().GetTower().GetComponent<TowerPoint>();
+            if (tmp.tower != null)
+            {
+                GameManager.GetInstance().AddGold(tmp.tower.GetComponent<Tower>().cost * 8 / 10);
+                tmp.isFull = false;
+                
+                Debug.Log("Sell Succeed");
+                Destroy(tmp.tower);
+            }
+            
+            else // Unable to sell
+            {
+                Debug.Log("Unable to sell");
+            }
         }
     }
+
+    
 
     private bool EnoughGold(int i)
     {
@@ -43,7 +86,7 @@ public class TowerSpawner : MonoBehaviour
 
     private bool CheckingArea()
     {
-        return GameManager.GetInstance().GetTower() != null;
+        return (GameManager.GetInstance().GetTower() != null);
     }
 
     public void DefaultColor()

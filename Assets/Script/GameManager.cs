@@ -6,10 +6,13 @@ using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     #region SINGLETON
+
     private static GameManager _instance;
 
     public static GameManager GetInstance()
@@ -19,11 +22,12 @@ public class GameManager : MonoBehaviour
             //  존재하는 지 확인한다.
             _instance = FindObjectOfType<GameManager>();
             if (_instance != null) return _instance;
-            
+
             //  존재하지 않는다면 생성한다.
             _instance = new GameManager().AddComponent<GameManager>();
             _instance.name = "GameManager";
         }
+
         return _instance;
     }
 
@@ -52,13 +56,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Monster> _monsters = new();
 
     [SerializeField] private int gold;
-    
+
     public UnityEvent onHpChanged = new UnityEvent();
     public UnityEvent onGoldChanged = new UnityEvent();
-    
+
     //  Tower
 
-    public GameObject clickedTower;
+    public GameObject _clickedTower;
+    public UnityEvent onTowerSelected = new UnityEvent();
 
     private void Start()
     {
@@ -66,28 +71,34 @@ public class GameManager : MonoBehaviour
         hp = MAX_HP;
         onHpChanged.Invoke();
 
-        clickedTower = null;
+        _clickedTower = null;
     }
 
     public void GetDamage()
     {
         hp--;
-        
+
         //  양이 아닌 정수일 때 GAME OVER, hp를 0으로 초기화
         if (hp <= 0)
         {
             hp = 0;
             Debug.Log("Game Over");
+            GameOver();
         }
 
         onHpChanged.Invoke();
+    }
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 
     public int GetHp()
     {
         return hp;
     }
-    
+
     //  필드에 존재하는 모든 몬스터를 가져온다.(List를 array로 변환)
     public Monster[] GetAllMonster()
     {
@@ -104,7 +115,7 @@ public class GameManager : MonoBehaviour
         //  List에 iterator가 아닌 instance를 넣어도 삭제할 수 있다.
         _monsters.Remove(m);
     }
-    
+
     //  Gold
 
     public void AddGold(int value)
@@ -132,7 +143,34 @@ public class GameManager : MonoBehaviour
 
     public GameObject GetTower()
     {
-        return clickedTower;
+        return _clickedTower;
     }
-    
+
+    public void SetTower(GameObject tower)
+    {
+        _clickedTower = tower;
+        onTowerSelected.Invoke();
+    }
+
+    public void Update()
+    {
+        //  우클릭 시 clickedTower reset
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (_clickedTower != null)
+            {
+                _clickedTower = null;
+                onTowerSelected.Invoke();
+            }
+        }
+
+        // if (GetTower() != null)
+        // {
+        //     if (GetTower().GetComponent<TowerPoint>().isFull)
+        //     {
+        //         _clickedTower = null;
+        //         onTowerSelected.Invoke();
+        //     }
+        // }
+    }
 }
