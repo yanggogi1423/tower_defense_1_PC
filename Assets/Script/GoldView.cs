@@ -18,6 +18,6 @@ public class GoldView : MonoBehaviour
         string gold = GameManager.GetInstance().GetGold().ToString();
 
         //  SetText 함수를 이용
-        GetComponent<TextMeshProUGUI>().SetText("Gold : " + gold);
+        GetComponent<TextMeshProUGUI>().SetText("Gold " + gold);
     }
 }

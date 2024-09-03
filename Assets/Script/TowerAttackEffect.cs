@@ -11,8 +11,11 @@ public class TowerAttackEffect : MonoBehaviour
     public Transform firePos;
     public float bulletSpeed;
 
+    private AudioSource _audioSource;
+
     private void Awake()
     {
+        _audioSource = gameObject.GetComponent<AudioSource>();
         if (!TryGetComponent<Tower>(out Tower tower))
         {
             //  컴포넌트가 존재하는지 확인하는 구문 + 프로그램 종료 + 문자열이 로그로 뜬다.
@@ -28,5 +31,7 @@ public class TowerAttackEffect : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, firePos.position, Quaternion.identity);
         bullet.GetComponent<BulletEffect>().SetTarget(target.transform.position, bulletSpeed);
+        
+        _audioSource.Play();
     }
 }

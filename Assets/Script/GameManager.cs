@@ -83,15 +83,11 @@ public class GameManager : MonoBehaviour
         {
             hp = 0;
             Debug.Log("Game Over");
-            GameOver();
+            
+            gameObject.GetComponent<ChangeScene>().GameOver();
         }
 
         onHpChanged.Invoke();
-    }
-
-    public void GameOver()
-    {
-        SceneManager.LoadScene("GameOver");
     }
 
     public int GetHp()

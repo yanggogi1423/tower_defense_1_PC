@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class TowerPoint : MonoBehaviour
 {
-
     [SerializeField] private GameObject towerSpawner;
 
     public GameObject tower;
@@ -21,6 +20,12 @@ public class TowerPoint : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (GameManager.GetInstance().GetTower() == gameObject)
+        {
+            GameManager.GetInstance().SetTower(null);
+            return;
+        }
+
         if (!isFull)
         {
             GameManager.GetInstance().SetTower(gameObject);
@@ -28,7 +33,7 @@ public class TowerPoint : MonoBehaviour
 
             gameObject.GetComponent<SpriteRenderer>().color = Color.black;
         }
-        else 
+        else
         {
             GameManager.GetInstance().SetTower(gameObject);
         }

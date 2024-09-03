@@ -11,7 +11,8 @@ public class Monster : MonoBehaviour
     public Transform[] paths;
 
     public float maxHp;
-
+    
+    
     private int curIndex = 0;
     private Vector3 direction = Vector3.zero;
     
@@ -40,27 +41,47 @@ public class Monster : MonoBehaviour
         CheckNextPath();
 
         //  Lerp는 선형 보간이다. -> 움직임을 부드럽게
-        transform.position = Vector3.Lerp(transform.position,
-            transform.position + direction,
-            moveSpeed * Time.deltaTime);
+        // transform.position = Vector3.Lerp(transform.position,
+        //     transform.position + direction,
+        //     moveSpeed * Time.deltaTime);
     }
 
+    // private void CheckNextPath()
+    // {
+    //     if (maxIndex - 1 < curIndex)
+    //     {
+    //         return;
+    //     }
+    //
+    //     if (paths[curIndex].position.magnitude - transform.position.magnitude < 0.0001)
+    //     {
+    //         curIndex++;
+    //         if (curIndex == maxIndex)
+    //         {
+    //             return;
+    //         }
+    //
+    //         direction = paths[curIndex].position - paths[curIndex - 1].position;
+    //     }
+    // }
+
+    //  맨 변경 후 위 코드가 정상적으로 작동하지 않아, MoveTowards 함수를 새로 도입(20240904)
     private void CheckNextPath()
     {
-        if (maxIndex - 1 < curIndex)
+        if (curIndex < paths.Length)
+        {
+            transform.position = Vector2.MoveTowards(transform.position,
+                paths[curIndex].position,
+                moveSpeed * Time.deltaTime);
+        }
+        else
         {
             return;
         }
 
-        if (paths[curIndex].position.magnitude - transform.position.magnitude < 0.00001)
+        if (Vector2.Distance(transform.position, paths[curIndex].position)<0.01f)
         {
             curIndex++;
-            if (curIndex == maxIndex)
-            {
-                return;
-            }
-
-            direction = paths[curIndex].position - paths[curIndex - 1].position;
         }
     }
 
