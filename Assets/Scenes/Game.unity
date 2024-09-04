@@ -3957,7 +3957,7 @@ MonoBehaviour:
 
     Tower
 
-    $200'
+    $250'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8a749af7eec0c834e9c59da1a78a163a, type: 2}
   m_sharedMaterial: {fileID: 1939774431170397005, guid: 8a749af7eec0c834e9c59da1a78a163a, type: 2}
